@@ -1,0 +1,17 @@
+
+ import "./organization.zmodel"  
+
+model ApiKey {
+
+    id                String        @id @default(uuid())  
+    key              String          
+    isActive    Boolean        
+    expirationDate  String          
+
+organizationId  String          
+    organization  Organization?  @relation(fields: [organizationId], references: [id], name:"organization")  
+ 
+      dateCreated DateTime @default(now())
+      dateUpdated DateTime @updatedAt  @default(now())
+      @@allow("all", true)
+}

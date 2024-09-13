@@ -1,0 +1,19 @@
+
+ import "./organization.zmodel"  
+ import "./payment.zmodel"  
+
+model Subscription {
+
+    id                String        @id @default(uuid())  
+    startDate  String          
+    endDate      String          
+    status        String          
+
+organizationId  String          
+    organization  Organization?  @relation(fields: [organizationId], references: [id], name:"organization")  
+ 
+    payments    Payment[]  @relation("subscription")  
+      dateCreated DateTime @default(now())
+      dateUpdated DateTime @updatedAt  @default(now())
+      @@allow("all", true)
+}

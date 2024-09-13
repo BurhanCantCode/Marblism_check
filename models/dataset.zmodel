@@ -1,0 +1,18 @@
+
+ import "./organization.zmodel"  
+ import "./endpoint.zmodel"  
+
+model Dataset {
+
+    id                String        @id @default(uuid())  
+    name            String          
+    description  String?          
+
+organizationId  String          
+    organization  Organization?  @relation(fields: [organizationId], references: [id], name:"organization")  
+ 
+    endpoints  Endpoint[]  @relation("dataset")  
+      dateCreated DateTime @default(now())
+      dateUpdated DateTime @updatedAt  @default(now())
+      @@allow("all", true)
+}

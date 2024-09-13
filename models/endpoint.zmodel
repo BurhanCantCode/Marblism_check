@@ -1,0 +1,17 @@
+
+ import "./dataset.zmodel"  
+
+model Endpoint {
+
+    id                String        @id @default(uuid())  
+    name            String          
+    url              String          
+    method        String          
+
+datasetId  String          
+    dataset      Dataset?      @relation(fields: [datasetId], references: [id], name:"dataset")  
+ 
+      dateCreated DateTime @default(now())
+      dateUpdated DateTime @updatedAt  @default(now())
+      @@allow("all", true)
+}

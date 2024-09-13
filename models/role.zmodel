@@ -1,0 +1,13 @@
+import "./user.zmodel";
+
+model Role {
+    id     String @id @default(uuid())
+    name   String
+    userId String
+    user   User   @relation(fields: [userId], references: [id])
+
+    @@allow('read', auth().id == this.userId)
+    @@allow('delete', auth().id == this.userId)
+    @@allow('create', name != 'admin')
+    @@allow('update', future().name != 'admin')
+}

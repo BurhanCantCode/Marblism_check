@@ -1,0 +1,20 @@
+import './organization'
+import './user'
+
+model OrganizationRole {
+    id             String       @id @default(uuid())
+    name           String
+    dateCreated    DateTime     @default(now())
+    dateUpdated    DateTime     @updatedAt @default(now())
+
+    userId         String
+    user           User         @relation(fields: [userId], references: [id])
+    organizationId String
+    organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+
+    @@allow('all', auth().roles?[name == 'admin'])
+    @@allow('all', organization.roles?[user == auth() && name == 'owner'])
+    @@allow('create', organization.roles?[user == auth()] && name != 'owner')
+    @@allow('read', organization.roles?[user == auth()])
+    @@allow('delete', auth() == user)
+}
