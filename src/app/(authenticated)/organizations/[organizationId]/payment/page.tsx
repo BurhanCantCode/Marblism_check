@@ -34,19 +34,19 @@ export default function PaymentPage() {
     setIsConfirming(true)
   }
 
-  const handleConfirmPayment = async () => {
-    try {
-      if (!products || products.length === 0) {
-        throw new Error('No products available')
-      }
-      const paymentLink = await createPaymentLink({ productId: products[0].id })
-      router.push(paymentLink)
-    } catch (error) {
-      enqueueSnackbar('Failed to process payment. Please try again.', {
-        variant: 'error',
-      })
+const handleConfirmPayment = async () => {
+  try {
+    if (!products || products.length === 0) {
+      throw new Error('No products available')
     }
+    const paymentLinkResponse = await createPaymentLink({ productId: products[0].id })
+    router.push(paymentLinkResponse.url)
+  } catch (error) {
+    enqueueSnackbar('Failed to process payment. Please try again.', {
+      variant: 'error',
+    })
   }
+}
 
   if (isLoadingProducts) {
     return (
